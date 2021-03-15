@@ -1,0 +1,50 @@
+[
+ {
+  "START":"1972-09-24",
+  "STOP":"",
+  "PATIENT":"af1ee647-2278-4d36-8637-a1d043813116",
+  "ENCOUNTER":"751219cd-3af9-4f5c-adf0-e1c9a5c2f246",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ },
+ {
+  "START":"1956-06-15",
+  "STOP":"",
+  "PATIENT":"ce4cf349-7435-44c5-b7b5-35f232ef5d12",
+  "ENCOUNTER":"fd1657f0-bbce-43cb-8ad6-acfce48bb7e7",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ },
+ {
+  "START":"1996-02-02",
+  "STOP":"",
+  "PATIENT":"ca3c0efa-a343-4dc1-8292-389aed442b0f",
+  "ENCOUNTER":"097ac168-a5f8-4012-981d-c78220500886",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ },
+ {
+  "START":"2007-11-27",
+  "STOP":"",
+  "PATIENT":"66cb20f7-7e7f-4849-9d42-bd419474d866",
+  "ENCOUNTER":"621349be-46af-421b-983d-e91271a930ed",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ },
+ {
+  "START":"1984-12-29",
+  "STOP":"",
+  "PATIENT":"47b0f941-5703-45b2-ba6f-25fbe1f29ddf",
+  "ENCOUNTER":"38d3a095-3b78-4bcd-bc99-7929639a6491",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ },
+ {
+  "START":"2014-01-28",
+  "STOP":"",
+  "PATIENT":"7102114c-76be-4074-80cc-1cc8dc9af968",
+  "ENCOUNTER":"b335d3d4-dc5e-424c-b3cd-5e3903927c82",
+  "CODE":"5",
+  "DESCRIPTION":"Allergy to mould"
+ }
+]
