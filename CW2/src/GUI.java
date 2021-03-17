@@ -6,9 +6,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 import static java.util.Collections.max;
@@ -67,6 +65,8 @@ public class GUI extends JFrame implements ItemListener {
 
     /* Globals */
     String[] typeFields;
+    Color[] colors = {Color.BLACK, Color.BLUE, Color.CYAN, Color.DARK_GRAY, Color.GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW};
+    Random rng = new Random();
 
     public GUI(){
         super("Patients Loader by Dinesh Anantharaja");
@@ -207,7 +207,6 @@ public class GUI extends JFrame implements ItemListener {
     private void viewStatsPopup(){
         barChartFrame = new JFrame("Barchart ");
         JLabel t = new JLabel("Choose your field!: ");
-
         JComboBox fields = new JComboBox(typeFields) ;
         JButton displayBarChart = new JButton("Display Bar Chart");
         JPanel barChartPanel = new JPanel(new GridLayout(1, 0, 10, 0));
@@ -230,7 +229,8 @@ public class GUI extends JFrame implements ItemListener {
                 count.size();
                 int maxVal = max(count.values());
                 for (String s: count.keySet()){
-                    JLabel l = addColumn(s, Color.CYAN, 50, 200 * count.get(s) / maxVal, count.get(s));
+                    Color myColour = colors[rng.nextInt(colors.length)];
+                    JLabel l = addColumn(s, myColour, 50, 250 * count.get(s) / maxVal, count.get(s));
                     barChartPanel.add(l);
                 }
 
@@ -251,7 +251,7 @@ public class GUI extends JFrame implements ItemListener {
         JScrollPane sc = new JScrollPane(barChartPanel);
         sc.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         sc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        sc.setPreferredSize(new Dimension(500, 400));
+        sc.setPreferredSize(new Dimension(1000, 400));
         barChartFrame.add(sc, BorderLayout.SOUTH);
         barChartFrame.pack();
         barChartFrame.setVisible(true);
@@ -263,7 +263,12 @@ public class GUI extends JFrame implements ItemListener {
             sumOfFrame.setVisible(false);
             sumOfFrame.dispose();
         }
-        catch (Exception ignored){ }
+        catch (Exception ignored){}
+        try {
+            barChartFrame.setVisible(false);
+            barChartFrame.dispose();
+        }
+        catch (Exception ignored){}
         remove(topMainPanel);
         remove(middleMainPanel);
         createTopMainPanel();

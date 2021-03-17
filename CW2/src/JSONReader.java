@@ -29,13 +29,13 @@ public class JSONReader {
                 line = br.readLine();
             }
 
+
             colNames.removeAll(Collections.singleton("["));
             colNames.removeAll(Collections.singleton("{"));
             colNames.removeAll(Collections.singleton("},"));
             colNames.removeAll(Collections.singleton("]"));
             colNames.removeAll(Collections.singleton("}"));
             colNames.removeAll(Collections.singleton(""));
-
             firstSplit = jsonStringBuilder.toString().split(",");
 
             String[] d = new String[colNames.size()];
