@@ -1,6 +1,10 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,8 +84,36 @@ public class Model {
        return myData;
     }
 
+    public String[] getAges(){
+        LocalDate now;
+        Column x = myDF.getColByColName("BIRTHDATE");
+        Column y = myDF.getColByColName("DEATHDATE");
+        int numberOfRows = x.getSize();
+        String[] ages = new String[numberOfRows];
+        String[] t;
+        for (int i=0; i<numberOfRows; i++){
+            t = x.getRowValue(i).split("-");
+            LocalDate birthDate = LocalDate.of(Integer.parseInt(t[0]), Integer.parseInt(t[1]), Integer.parseInt(t[2]));
+            if (y.getRowValue(i).equals("")){
+                now = LocalDate.now();
+            }
+            else{
+                t = y.getRowValue(i).split("-");
+                now = LocalDate.of(Integer.parseInt(t[0]), Integer.parseInt(t[1]), Integer.parseInt(t[2]));
+            }
+            long years = ChronoUnit.YEARS.between(birthDate, now);
+            ages[i] = String.valueOf(years);
+        }
+        return ages;
+    }
+
     public void writeToFile(String filename, String optionString, String[][] currentTableData){
         JSONWriter s = new JSONWriter(this, optionString, currentTableData);
         s.writeToFile(filename);
+    }
+
+    public static void main(String[] args) {
+        Model myModel = new Model("/Users/student/Documents/Java/COMP004/CW2/src/CSVFiles/patients100.csv", "CSV");
+        myModel.getAges();
     }
 }

@@ -46,7 +46,7 @@ public class GUI extends JFrame implements ItemListener {
     private JButton clearFilterButton;
     private DefaultListModel <String> listModel;
     private JButton goButton;
-    private JComboBox typeFieldsCombo;
+    private JComboBox<String> typeFieldsCombo;
 
     /* Middle Main Panel */
     private JPanel middleTopPanel;
@@ -118,7 +118,7 @@ public class GUI extends JFrame implements ItemListener {
 
     private Double calculateSumOf(int colIndex){
         int rowCount = sorter.getViewRowCount();
-        Double sum = 0.0;
+        double sum = 0.0;
         for (int i = 0; i < rowCount; i++){
             try {
                 sum += Double.parseDouble((String) table.getValueAt(i, colIndex));
@@ -137,7 +137,7 @@ public class GUI extends JFrame implements ItemListener {
         GridBagConstraints gbc = new GridBagConstraints();
         JLabel t = new JLabel("Choose your field!: ");
 
-        JComboBox cb = new JComboBox(typeFields) ;
+        JComboBox<String> cb = new JComboBox<>(typeFields) ;
         JButton sumOfButton = new JButton("Calculate");
         JLabel s = new JLabel("Sum of ");
 
@@ -207,28 +207,44 @@ public class GUI extends JFrame implements ItemListener {
     private void viewStatsPopup(){
         barChartFrame = new JFrame("Barchart ");
         JLabel t = new JLabel("Choose your field!: ");
-        JComboBox fields = new JComboBox(typeFields) ;
+
+        JComboBox<String> fields = new JComboBox<>(typeFields) ;
+        fields.addItem("AGE");
         JButton displayBarChart = new JButton("Display Bar Chart");
+
         JPanel barChartPanel = new JPanel(new GridLayout(1, 0, 10, 0));
         displayBarChart.addActionListener((ActionEvent e) -> {
             String cs = (String) fields.getSelectedItem();
+            assert cs != null;
             try {
                 barChartPanel.removeAll();
                 barChartPanel.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
                 barChartPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), " BarChart of " + fields.getSelectedItem()));
-                int colIndex = table.getColumnModel().getColumnIndex(cs);
                 HashMap<String, Integer> count = new HashMap<>();
-                for (int i=0; i<sorter.getViewRowCount(); i++) {
-                    String s = (String) table.getValueAt(i, colIndex);
-                    if (count.containsKey(s)) {
-                        count.put(s, count.get(s) + 1);
-                    } else {
-                        count.put(s, 1);
+                // If its age distribution
+                if (cs.equals("AGE")){
+                    String[] ages = myModel.getAges();
+                    for (String s : ages) {
+                        if (count.containsKey(s)) {
+                            count.put(s, count.get(s) + 1);
+                        } else {
+                            count.put(s, 1);
+                        }
                     }
                 }
-                count.size();
+                else {
+                    int colIndex = table.getColumnModel().getColumnIndex(cs);
+                    for (int i = 0; i < sorter.getViewRowCount(); i++) {
+                        String s = (String) table.getValueAt(i, colIndex);
+                        if (count.containsKey(s)) {
+                            count.put(s, count.get(s) + 1);
+                        } else {
+                            count.put(s, 1);
+                        }
+                    }
+                }
                 int maxVal = max(count.values());
-                for (String s: count.keySet()){
+                for (String s : count.keySet()) {
                     Color myColour = colors[rng.nextInt(colors.length)];
                     JLabel l = addColumn(s, myColour, 50, 250 * count.get(s) / maxVal, count.get(s));
                     barChartPanel.add(l);
@@ -371,7 +387,7 @@ public class GUI extends JFrame implements ItemListener {
 
 
         //topMainPanel.add(addedFieldsList);
-        typeFieldsCombo = new JComboBox(typeFields);
+        typeFieldsCombo = new JComboBox<>(typeFields);
 
         JLabel l = new JLabel("  Select type field: ");
         list.setVisibleRowCount(5);
@@ -528,7 +544,7 @@ public class GUI extends JFrame implements ItemListener {
     public void itemStateChanged(ItemEvent e){
         int index = 0;
         char c = '-';
-        Object source = e.getItemSelectable();
+        ItemSelectable source = e.getItemSelectable();
 
         for (ChkBox chkbox: checkBoxList){
             if (source == chkbox.getChkbox()){
