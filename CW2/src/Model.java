@@ -1,7 +1,5 @@
-import java.io.FileWriter;
-import java.io.IOException;
+import javax.swing.JTable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +11,7 @@ public class Model {
     private DataLoader myDataLoader;
     private JSONReader jsonReader;
     private DataFrame myDF;
-    private HashMap<Character, String> optionMapper;
+    private final HashMap<Character, String> optionMapper;
     private String fullOptionString;
 
     public Model(String fileName, String type){
@@ -57,7 +55,7 @@ public class Model {
         return fullOptionString;
     }
     public String[] getTableHeadings(String choices){
-        List<String> headingsList = new ArrayList<String>();
+        List<String> headingsList = new ArrayList<>();
         for(int i=0, n=choices.length(); i <n; i++){
             char c = choices.charAt(i);
             if (c != '-'){
@@ -84,14 +82,14 @@ public class Model {
        return myData;
     }
 
-    public String[] getAges(){
+    public String[] getAges(int[] rowIndexes){
         LocalDate now;
         Column x = myDF.getColByColName("BIRTHDATE");
         Column y = myDF.getColByColName("DEATHDATE");
-        int numberOfRows = x.getSize();
-        String[] ages = new String[numberOfRows];
+        String[] ages = new String[rowIndexes.length];
         String[] t;
-        for (int i=0; i<numberOfRows; i++){
+        int v = 0;
+        for (int i:rowIndexes){
             t = x.getRowValue(i).split("-");
             LocalDate birthDate = LocalDate.of(Integer.parseInt(t[0]), Integer.parseInt(t[1]), Integer.parseInt(t[2]));
             if (y.getRowValue(i).equals("")){
@@ -101,8 +99,9 @@ public class Model {
                 t = y.getRowValue(i).split("-");
                 now = LocalDate.of(Integer.parseInt(t[0]), Integer.parseInt(t[1]), Integer.parseInt(t[2]));
             }
-            long years = ChronoUnit.YEARS.between(birthDate, now);
-            ages[i] = String.valueOf(years);
+            long years = ChronoUnit.YEARS.between(birthDate, now) + 1;
+            ages[v++] = String.valueOf(years);
+
         }
         return ages;
     }
@@ -114,6 +113,6 @@ public class Model {
 
     public static void main(String[] args) {
         Model myModel = new Model("/Users/student/Documents/Java/COMP004/CW2/src/CSVFiles/patients100.csv", "CSV");
-        myModel.getAges();
+        //myModel.getAges(10);
     }
 }

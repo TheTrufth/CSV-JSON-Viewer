@@ -223,7 +223,11 @@ public class GUI extends JFrame implements ItemListener {
                 HashMap<String, Integer> count = new HashMap<>();
                 // If its age distribution
                 if (cs.equals("AGE")){
-                    String[] ages = myModel.getAges();
+                    int[] rowIndexes = new int[sorter.getViewRowCount()];
+                    for (int index=0; index<sorter.getViewRowCount(); index++){
+                        rowIndexes[index] = sorter.convertRowIndexToModel(index);
+                    }
+                    String[] ages = myModel.getAges(rowIndexes);
                     for (String s : ages) {
                         if (count.containsKey(s)) {
                             count.put(s, count.get(s) + 1);
