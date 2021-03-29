@@ -3,12 +3,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class DataLoader {
-    private DataFrame myDF;
+    private final DataFrame myDF;
     public DataLoader(String fileName){
-       String line = "";
+       String line;
        String splitBy = ",";
        DataFrame dataFrame = new DataFrame();
        try {
@@ -22,16 +22,13 @@ public class DataLoader {
 
            // Parse the arrays
            int k = 0;
-           for (int i = 0; i < x.length; i++){
+           for (String s : x) {
                // Col name (ID, BIRTHDATE, DEATHDATE, ...)
-               // System.out.println(x[i]);
-               Column col = new Column(x[i]);
-               for (int j = 1; j < data.size(); j++){
+               Column col = new Column(s);
+               for (int j = 1; j < data.size(); j++) {
                    try {
-                       //System.out.println(data.get(j)[k]);
                        col.addRowValue(data.get(j)[k]);
-                   }
-                   catch (ArrayIndexOutOfBoundsException e){
+                   } catch (ArrayIndexOutOfBoundsException e) {
                        col.addRowValue("");
                    }
                }
@@ -52,8 +49,4 @@ public class DataLoader {
         return this.myDF;
    }
 
-    public static void main(String[] args) {
-        DataLoader d = new DataLoader("/Users/student/Documents/Java/COMP004/CW2/src/CSVFiles/patients100.csv");
-
-    }
 }

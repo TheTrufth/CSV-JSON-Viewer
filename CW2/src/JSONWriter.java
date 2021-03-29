@@ -3,21 +3,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONWriter {
-    private final Model myModel;
-    private String[] colHeadings;
-    private String[][] data;
-    private StringBuilder jsonString;
+    private final String[] colHeadings;
+    private final String[][] data;
+    private final StringBuilder jsonString;
 
     public JSONWriter(Model m, String optionString, String[][] currentTableData){
-        this.myModel = m;
-        this.colHeadings = myModel.getTableHeadings(optionString);
+        this.colHeadings = m.getTableHeadings(optionString);
         this.data = currentTableData;
         this.jsonString = new StringBuilder(("["));
         test();
-    }
-
-    public StringBuilder getJsonString() {
-        return jsonString;
     }
 
     public void writeToFile(String filename){

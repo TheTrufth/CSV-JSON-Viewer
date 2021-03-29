@@ -1,26 +1,22 @@
-import javax.swing.JTable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 /* File name: "/Users/student/Documents/Java/COMP004/CW2/src/patients100.csv" */
 public class Model {
-    private DataLoader myDataLoader;
-    private JSONReader jsonReader;
     private DataFrame myDF;
     private final HashMap<Character, String> optionMapper;
-    private String fullOptionString;
+    private final String fullOptionString;
 
     public Model(String fileName, String type){
         if (type.equals("CSV")){
-            this.myDataLoader = new DataLoader(fileName);
+            DataLoader myDataLoader = new DataLoader(fileName);
             this.myDF = myDataLoader.getMyDF();
         }
         if (type.equals("JSON")){
-            this.jsonReader = new JSONReader(fileName);
+            JSONReader jsonReader = new JSONReader(fileName);
             this.myDF = jsonReader.getMyDF();
         }
 
@@ -48,9 +44,6 @@ public class Model {
         return colNames;
     }
 
-    public HashMap<Character, String> getOptionMapper(){
-        return this.optionMapper;
-    }
     public String getFullOptionString(){
         return fullOptionString;
     }
@@ -109,10 +102,5 @@ public class Model {
     public void writeToFile(String filename, String optionString, String[][] currentTableData){
         JSONWriter s = new JSONWriter(this, optionString, currentTableData);
         s.writeToFile(filename);
-    }
-
-    public static void main(String[] args) {
-        Model myModel = new Model("/Users/student/Documents/Java/COMP004/CW2/src/CSVFiles/patients100.csv", "CSV");
-        //myModel.getAges(10);
     }
 }

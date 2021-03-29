@@ -1,7 +1,9 @@
 import java.util.ArrayList;
-
+/*
+    Class that has the collection of columns in the table.
+ */
 public class DataFrame {
-    private ArrayList<Column> columns = new ArrayList<>();
+    private final ArrayList<Column> columns = new ArrayList<>();
 
     public void addColumn(Column col){
         columns.add(col);

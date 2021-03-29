@@ -3,11 +3,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class JSONReader {
-    private DataFrame myDF;
+    private final DataFrame myDF;
 
     public JSONReader(String fileName){
         myDF = new DataFrame();
@@ -28,14 +27,14 @@ public class JSONReader {
                 }
                 line = br.readLine();
             }
-
-
+            // Removes these symbols from the imported json.
             colNames.removeAll(Collections.singleton("["));
             colNames.removeAll(Collections.singleton("{"));
             colNames.removeAll(Collections.singleton("},"));
             colNames.removeAll(Collections.singleton("]"));
             colNames.removeAll(Collections.singleton("}"));
             colNames.removeAll(Collections.singleton(""));
+
             firstSplit = jsonStringBuilder.toString().split(",");
 
             String[] d = new String[colNames.size()];
@@ -64,12 +63,10 @@ public class JSONReader {
             int k = 0;
             for (String colName : colNames) {
                 // Col name (ID, BIRTHDATE, DEATHDATE, ...)
-                // System.out.println(x[i]);
                 Column col = new Column(colName);
-                for (int j = 0; j < data.size(); j++) {
+                for (String[] datum : data) {
                     try {
-                        //System.out.println(data.get(j)[k]);
-                        col.addRowValue(data.get(j)[k]);
+                        col.addRowValue(datum[k]);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         col.addRowValue("");
                     }
@@ -84,10 +81,6 @@ public class JSONReader {
         catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        JSONReader x = new JSONReader("/Users/student/Documents/Java/COMP004/CW2/src/JSONFiles/p.json");
     }
 
     public DataFrame getMyDF(){

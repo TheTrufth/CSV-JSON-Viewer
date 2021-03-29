@@ -1,8 +1,11 @@
 import java.util.ArrayList;
-
+/*
+    Column class
+    Represents each columns in the table
+ */
 public class Column {
-    private String colName;
-    private ArrayList<String> colRows = new ArrayList<>();
+    private final String colName;
+    private final ArrayList<String> colRows = new ArrayList<>();
 
     public Column(String colName){
         this.colName = colName;
